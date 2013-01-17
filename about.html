@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Checkbook</title>
+		<link href = "/stylesheets/bootstrap.css" rel = "stylesheet" type = "text/css"/>
+		<script src = "/stylesheets/jquery.js" type = "text/javascript"></script>
+		<style type = "text/css">
+			body {
+				padding-top: 60px;
+				padding-bottom: 40px;
+			}
+		</style>
+	</head>
+	<body>
+	  	<div class = "navbar navbar-inverse navbar-fixed-top">
+	  		<div class = "navbar-inner">
+	  			<div class = "container-fluid">
+	  				<a class = "brand" href = "/"> Checkbook</a>
+	  				<ul class = "nav">
+	  					<li><a href = "/"> Home </a></li>
+	  					<li><a href = "/userpage" id = "mybook">My Book</a></li>
+	  					<li class = "active"><a href = "/about"> About </a></li>
+	  				</ul>
+	  				<div class = "btn-group pull-right">
+							<p>Hello! {{ username }}
+							<a class = "btn btn-mini" href="{{url}}">{{url_linktext}}</a></p> 
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class = "container-fluid">
+			<div class = "span2">
+				<br />
+			</div>
+			<div class = "span8">
+				<div class = "hero-unit">
+					<h1>About Checkbook</h1>
+					<br />
+					<ol> 
+						<li>Easy way to keep track of your transactions.</li>
+						<li>Currently Only able to create one checkbook per user.</li>
+						<li>In the future there will be an iphone/andriod app for convinience.</li>
+						<li>Open Source code can be found on<a href = "https://github.com/blyddon22/gae-Checkbook"> Github</a></li>
+					</ol>
+				</div>
+			</div>
+			<div class = "span2">
+				<br />
+			</div>
+		</div>
+		<div class = "container-fluid">
+			<div class = "span4">
+				<br />
+			</div>
+			<div class = "span6">
+				<p>Copyright (c) 2012 Braxton Lyddon</p>
+			</div>
+
+		</div>
+	</body>
+</html>
