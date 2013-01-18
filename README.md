@@ -4,6 +4,12 @@ gae-Checkbook
 Online version of your personal Transaction Register that you would
 find in your checkbook.
 
+Running
+====
+
+Currently this app is still in development. 
+If you wish to run the app and test it out you will need to run it using the app engine development server.
+
 
 License
 =========
