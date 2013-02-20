@@ -12,9 +12,7 @@ If you wish to run the app and test it out you will need to run it using the app
 
 Bugs
 ====
-Currently there are a couple things that need worked on.
-  1) The add checkbook button needs to either be disabled after a user creates the first checkbook or it needs to be taken off the webpage.
-  2) For everyone except the first user, when you create a checkbook the total doesn't update on creation.
+There are none that I currently know of.
 
 
 License
