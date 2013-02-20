@@ -119,9 +119,17 @@
 					</div>
 							</form>
 				</div>
-				<div class="divButton">
-					<a data-toggle="modal" id = "addButton" href="#windowTitleDialog" class="btn btn-primary btn-large">Add Checkbook</a>
-				</div>
+				{% if user %}
+					{% if active == True %}
+						<div>
+							<br />
+						</div>
+					{% elif active == False %}
+						<div class="divButton">
+							<a data-toggle="modal" id = "addButton" href="#windowTitleDialog" class="btn btn-primary btn-large">Add Checkbook</a>
+						</div>
+					{% endif %}
+				{% endif %}
 				<!-- Main modal End -->
 
 				<!-- Modal for my debit transactions -->
