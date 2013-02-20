@@ -130,6 +130,7 @@
 						</div>
 					{% endif %}
 				{% endif %}
+
 				<!-- Main modal End -->
 
 				<!-- Modal for my debit transactions -->
@@ -173,7 +174,7 @@
 					</div>
 						<div class="modal-footer">
 							<a href="#" class="btn" data-dismiss = "modal">Cancel</a>
-							<input type = "submit" class = "btn" value = "Submit" name = "credit" onsubmit = "Credit_check();" $('.collapse').collapse({toggle: false});>
+							<input type = "submit" class = "btn" value = "Submit" name = "credit" onsubmit = "Credit_check();">
 						</div>
 							</form>
 				</div>
@@ -186,7 +187,11 @@
 				<div id="accordion2" class="accordion">
 					<div class="accordion-group">
 				    	<div class="accordion-heading">
-				        			<a href="#collapseOne" data-parent="#accordion2" data-toggle="collapse" class="accordion-toggle" id = "BookName"> {{ book_name }} Checkbook</a>
+				    		{% for book in checkbook %}
+				    			{% if user == book.author%}
+				        			<a href="#collapseOne" data-parent="#accordion2" data-toggle="collapse" class="accordion-toggle" id = "BookName"> {{ book.name }} Checkbook</a>
+				        		{% endif %}
+				        	{% endfor %}
 				      	</div>
 				      	<div class="accordion-body collapse" id="collapseOne" style="height: 0px;">
 				        	<div class="accordion-inner">
@@ -240,8 +245,8 @@
 				<br />
 			</div>
 		</div>
-		<div class = "container-fluid">
-			<div class = "span4">
+		<div class = "container">
+			<div class = "span4_5">
 				<br />
 			</div>
 			<div class = "span6">
