@@ -16,6 +16,7 @@ class Checkbook(db.Model):
 	author = db.UserProperty()
 	name = db.StringProperty()
 	amount = db.FloatProperty()
+	active = db.BooleanProperty()
 	time = db.DateProperty(auto_now_add = True)
 
 class Transaction(db.Model):
@@ -90,10 +91,11 @@ class UserHandler(webapp2.RequestHandler):
 
 
 
-		checkbook = db.GqlQuery("SELECT * FROM Checkbook LIMIT 10").fetch(100000)
-		transaction = db.GqlQuery("SELECT * FROM Transaction ORDER BY date ASC LIMIT 10").fetch(100000)
-		totals = db.GqlQuery("SELECT * FROM Total ORDER BY author DESC LIMIT 10").fetch(100000)
+		checkbook = db.GqlQuery("SELECT * FROM Checkbook")
+		transaction = db.GqlQuery("SELECT * FROM Transaction ORDER BY date ASC")
+		totals = db.GqlQuery("SELECT * FROM Total ORDER BY author DESC")
 
+		active = False
 		Total = 0.00
 		if user:
 			for book in checkbook:
@@ -103,8 +105,6 @@ class UserHandler(webapp2.RequestHandler):
 				if tran.author == user:
 					Total = Total + tran.debit_amount
 					Total = Total - tran.credit_amount
-				else:
-					Total = 0.00
 		else:
 			Total = 0.00
 
@@ -113,6 +113,7 @@ class UserHandler(webapp2.RequestHandler):
 			for book in checkbook:
 				if book.author == user:
 					book_name = book.name
+					active = book.active
 				else:
 					book_name = "No"
 		else:
@@ -121,6 +122,7 @@ class UserHandler(webapp2.RequestHandler):
 
 
 		template_values = {
+			'active': active,
 			'book_name': book_name,
 			'total': Total,
 			'checkbook': checkbook,
@@ -151,6 +153,7 @@ class UserHandler(webapp2.RequestHandler):
 				checkbook.author = user
 				checkbook.name = self.request.get('new_checkbook')
 				checkbook.amount = float(self.request.get('amount', 0.0))
+				checkbook.active = True
 				TOTAL = checkbook.amount
 				checkbook.put()
 		else:
