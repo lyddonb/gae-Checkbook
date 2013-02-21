@@ -21,7 +21,8 @@ class Checkbook(db.Model):
 
 class Transaction(db.Model):
 	author = db.UserProperty()
-	date = db.DateProperty(auto_now_add = True)
+	date = db.DateTimeProperty(auto_now_add = True)
+	dateDisplay = db.DateProperty(auto_now_add = True)
 	debit_amount = db.FloatProperty()
 	description = db.StringProperty()
 	credit_amount = db.FloatProperty()
