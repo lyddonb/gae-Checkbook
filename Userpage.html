@@ -16,8 +16,199 @@
    -->
 <html>
 	<head>
-		<title>Checkbook</title>
+		<title>Checkbook|Checkbook</title>
+		<meta name = "author" content = "Braxton Lyddon">
 		<link href = "/stylesheets/bootstrap.css" rel = "stylesheet" type = "text/css"/>
+	</head>
+	<body>
+		<!-- navbar -->
+	  	<div class = "navbar navbar-inverse navbar-fixed-top">
+	  		<div class = "navbar-inner">
+	  			<div class = "container">
+	  				<p class = "brand" href = "/"><img src = "/Media/LogoMin.png"></p>
+	  				<ul class = "nav">
+	  					<li><a href = "/"> Home </a></li>
+	  					<li class = "active"><a href = "/userpage"> My Book </a></li>
+	  					<li><a href = "/about"> About </a></li>
+	  				</ul>
+	  				<div class = "btn-group pull-right">
+							<p>Hello! {{ username }}
+							<a class = "btn btn-mini" href="{{url}}" id = "log">{{url_linktext}}</a></p> 
+
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- end navbar -->
+
+		<!-- main -->
+		<div class = "container">
+			<div class = "hero-unit">
+
+				<!-- Main Modal for creating a checkbook-->
+				<div class="modal hide fade" id="windowTitleDialog">
+					<div class="modal-header">
+						<a href="#" class="close" data-dismiss="modal">x</a>
+						<h3>Please register a new checkbook.</h3>
+					</div>
+					<div class="modal-body">
+						<div class="divDialogElements">
+							<form name = "add_checkbook" onsubmit = "return validateCheckbook(); " method = "post">
+							Name of new checkbook: <input type = "text" name = "new_checkbook" id = "new_checkbook">
+							<br />
+							
+							<div class = "input-prepend input-append">
+								Starting amount: 
+								<span class = "add-on">$</span>
+								<input class = "span2" type = "text" name = "amount" id = "amount">
+							</div>
+							<div class = "alert">
+								<strong>Warning!</strong> This can only be done once!
+							</div>
+							<br />
+						</div>
+					</div>
+					<div class="modal-footer">
+						<input type = "submit" class = "btn btn-primary" id = "submitButton" value = "Submit" name = "checkbook" onsubmit = "validateCheckbook();"> 
+					</div>
+							</form>
+				</div>
+				{% if user %}
+					{% if active == True %}
+						<!-- Nothing should appear here -->
+					{% elif active == False %}
+						<div class="divButton">
+							<a data-toggle="modal" id = "addButton" href="#windowTitleDialog" class="btn btn-primary btn-large">Add Checkbook</a>
+						</div>
+					{% endif %}
+				{% endif %}
+
+				<!-- Main modal End -->
+
+				<!-- Modal for my debit transactions -->
+				<div class="modal hide fade" id="Debit">
+					<div class="modal-header">
+						<a href="#" class="close" data-dismiss="modal">x</a>
+						<h3>Make a new Debit transaction!</h3>
+					</div>
+					<div class="modal-body">
+						<div class="divDialogElements">
+							<form name = "debit_transaction" onsubmit = "return Debit_check();" method = "post">
+								<br />
+								Transaction Description: <input type = "text" name = "debit_tran_des" id = "debit_tran_des">
+								<br />
+								Amount: <input type = "text" name = "debit_amount" id = "debit_amount">
+						</div>
+					</div>
+						<div class="modal-footer">
+							<input type = "submit" class = "btn" value = "Submit" name = "debit" onsubmit = "Debit_check();">
+						</div>
+							</form>
+				</div>
+				<!-- debit transaction end -->
+
+				<!-- Credit transaction -->
+				<div class="modal hide fade" id="Credit">
+
+					<div class="modal-header">
+						<a href="#" class="close" data-dismiss="modal">x</a>
+						<h3>Make a new Credit transaction!</h3>
+					</div>
+					<div class="modal-body">
+						<div class="divDialogElements">
+							<form name = "credit_transaction" onsubmit = "return Credit_check();" method = "post">
+								<br />
+								Transaction Description: <input type = "text" name = "credit_tran_des">
+								<br />
+								Amount: <input type = "text" name = "credit_amount">
+						</div>
+					</div>
+						<div class="modal-footer">
+							<input type = "submit" class = "btn" value = "Submit" name = "credit" onsubmit = "Credit_check();">
+						</div>
+							</form>
+				</div>
+				<!-- Credit transaction end -->
+
+				<br />
+
+
+				<!-- My accordion for hiding and showing whats in the checkbook -->
+				<div id="accordion2" class="accordion">
+					<div class="accordion-group">
+				    	<div class="accordion-heading">
+				    		{% for book in checkbook %}
+				    			{% if user == book.author%}
+				        			<a href="#collapseOne" data-parent="#accordion2" data-toggle="collapse" class="accordion-toggle" id = "BookName"> {{ book.name }} Checkbook</a>
+				        		{% endif %}
+				        	{% endfor %}
+				      	</div>
+				      	<div class="accordion-body collapse" id="collapseOne" style="height: 0px;">
+				        	<div class="accordion-inner">
+				          		<div class = "container-fluid">
+				          			<table class = "table table-bordered">
+				          				<thead>
+				          					<tr> 
+				          					</tr>
+				          					<tr>
+				          						<th>Date</th>
+				          						<th>Transaction Description</th>
+				          						<th><a data-toggle="modal" href="#Debit" class="btn btn-primary btn-mini">Debit (+)</a></th>
+				          						<th><a data-toggle="modal" href="#Credit" class="btn btn-primary btn-mini">Credit (-)</a></th>
+				          						<th>Total</th>
+				          					</tr>
+				          				</thead>
+				          				<tbody>
+				          					{% for tran in transaction %}
+				          						{% if user == tran.author %}
+				          					<tr>
+				          						<td> {{ tran.dateDisplay }}  </td>
+				          						<td> {{ tran.description }} </td>
+				          						<td> {{ tran.debit_amount }}</td>
+				          						<td> {{ tran.credit_amount }}</td>
+				          						<td> {{ tran.Total }}</td>
+				          					</tr>
+				          						{% endif %}
+				          					{% endfor %} 
+				          					<tr>
+				          						<td></td>
+				          						<td></td>
+				          						<td></td>
+				          						<td></td> 						
+				          						<td>Total: 
+				          							{{ total }}
+				          						</td>
+				          					</tr>
+				          				</tbody>
+				          			</table>
+				          		</div>
+				        	</div>
+				      	</div>
+				    </div>
+				</div>
+				<!-- accordion end -->
+			</div>
+			<div class = "span6">
+				<br />
+			</div>
+			<div class = "span1">
+				<br />
+			</div>
+		</div>
+		<!-- end main -->
+
+		<!-- footer -->
+		<div class = "container">
+			<div class = "span4_5">
+				<br />
+			</div>
+			<div class = "span6">
+				<p>Copyright (c) 2012 Braxton Lyddon</p>
+			</div>
+		</div>
+		<!-- end footer -->
+
+		<!-- javascript -->
 		<script src = "/stylesheets/jquery.js" type = "text/javascript"></script>
 		<script src = "/stylesheets/bootstrap_modal.js" type = "text/javascript"></script>
 		<script src = "/stylesheets/bootstrap-collapse.js" type = "text/javascript"></script>
@@ -83,190 +274,6 @@
 				$('#Credit').modal('hide');
 			}
 		</script>
-	</head>
-	<body>
-	  	<div class = "navbar navbar-inverse navbar-fixed-top">
-	  		<div class = "navbar-inner">
-	  			<div class = "container-fluid">
-	  				<a class = "brand" href = "/"> Checkbook</a>
-	  				<ul class = "nav">
-	  					<li><a href = "/"> Home </a></li>
-	  					<li class = "active"><a href = "/userpage"> My Book </a></li>
-	  					<li><a href = "/about"> About </a></li>
-	  				</ul>
-	  				<div class = "btn-group pull-right">
-							<p>Hello! {{ username }}
-							<a class = "btn btn-mini" href="{{url}}" id = "log">{{url_linktext}}</a></p> 
-
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class = "container-fluid">
-			<div class = "hero-unit">
-
-				<!-- Main Modal for creating a checkbook-->
-				<div class="modal hide fade" id="windowTitleDialog">
-					<div class="modal-header">
-						<a href="#" class="close" data-dismiss="modal">x</a>
-						<h3>Please register a new checkbook.</h3>
-					</div>
-					<div class="modal-body">
-						<div class="divDialogElements">
-							<form name = "add_checkbook" onsubmit = "return validateCheckbook(); " method = "post">
-							Name of new checkbook: <input type = "text" name = "new_checkbook" id = "new_checkbook">
-							<br />
-							
-							<div class = "input-prepend input-append">
-								Starting amount: 
-								<span class = "add-on">$</span>
-								<input class = "span2" type = "text" name = "amount" id = "amount">
-							</div>
-							<div class = "alert">
-								<strong>Warning!</strong> This can only be done once!
-							</div>
-							<br />
-						</div>
-					</div>
-					<div class="modal-footer">
-						<a href="#" class="btn" data-dismiss = "modal">Cancel</a>
-						<input type = "submit" class = "btn btn-primary" id = "submitButton" value = "Submit" name = "checkbook" onsubmit = "validateCheckbook();"> 
-					</div>
-							</form>
-				</div>
-				{% if user %}
-					{% if active == True %}
-						<div>
-							<br />
-						</div>
-					{% elif active == False %}
-						<div class="divButton">
-							<a data-toggle="modal" id = "addButton" href="#windowTitleDialog" class="btn btn-primary btn-large">Add Checkbook</a>
-						</div>
-					{% endif %}
-				{% endif %}
-
-				<!-- Main modal End -->
-
-				<!-- Modal for my debit transactions -->
-				<div class="modal hide fade" id="Debit">
-					<div class="modal-header">
-						<a href="#" class="close" data-dismiss="modal">x</a>
-						<h3>Make a new Debit transaction!</h3>
-					</div>
-					<div class="modal-body">
-						<div class="divDialogElements">
-							<form name = "debit_transaction" onsubmit = "return Debit_check();" method = "post">
-								<br />
-								Transaction Description: <input type = "text" name = "debit_tran_des" id = "debit_tran_des">
-								<br />
-								Amount: <input type = "text" name = "debit_amount" id = "debit_amount">
-						</div>
-					</div>
-						<div class="modal-footer">
-							<a href="#" class="btn" data-dismiss = "modal">Cancel</a>
-							<input type = "submit" class = "btn" value = "Submit" name = "debit" onsubmit = "Debit_check();">
-						</div>
-							</form>
-				</div>
-				<!-- debit transaction end -->
-
-				<!-- Credit transaction -->
-				<div class="modal hide fade" id="Credit">
-
-					<div class="modal-header">
-						<a href="#" class="close" data-dismiss="modal">x</a>
-						<h3>Make a new Credit transaction!</h3>
-					</div>
-					<div class="modal-body">
-						<div class="divDialogElements">
-							<form name = "credit_transaction" onsubmit = "return Credit_check();" method = "post">
-								<br />
-								Transaction Description: <input type = "text" name = "credit_tran_des">
-								<br />
-								Amount: <input type = "text" name = "credit_amount">
-						</div>
-					</div>
-						<div class="modal-footer">
-							<a href="#" class="btn" data-dismiss = "modal">Cancel</a>
-							<input type = "submit" class = "btn" value = "Submit" name = "credit" onsubmit = "Credit_check();">
-						</div>
-							</form>
-				</div>
-				<!-- Credit transaction end -->
-
-				<br />
-
-
-				<!-- My accordion for hiding and showing whats in the checkbook -->
-				<div id="accordion2" class="accordion">
-					<div class="accordion-group">
-				    	<div class="accordion-heading">
-				    		{% for book in checkbook %}
-				    			{% if user == book.author%}
-				        			<a href="#collapseOne" data-parent="#accordion2" data-toggle="collapse" class="accordion-toggle" id = "BookName"> {{ book.name }} Checkbook</a>
-				        		{% endif %}
-				        	{% endfor %}
-				      	</div>
-				      	<div class="accordion-body collapse" id="collapseOne" style="height: 0px;">
-				        	<div class="accordion-inner">
-				          		<div class = "container-fluid">
-				          			<table class = "table table-bordered">
-				          				<thead>
-				          					<tr> 
-				          					</tr>
-				          					<tr>
-				          						<th>Date</th>
-				          						<th>Transaction Description</th>
-				          						<th><a data-toggle="modal" href="#Debit" class="btn btn-primary btn-mini">Debit (+)</a></th>
-				          						<th><a data-toggle="modal" href="#Credit" class="btn btn-primary btn-mini">Credit (-)</a></th>
-				          						<th>Total</th>
-				          					</tr>
-				          				</thead>
-				          				<tbody>
-				          					{% for tran in transaction %}
-				          						{% if user == tran.author %}
-				          					<tr>
-				          						<td> {{ tran.date }}  </td>
-				          						<td> {{ tran.description }} </td>
-				          						<td> {{ tran.debit_amount }}</td>
-				          						<td> {{ tran.credit_amount }}</td>
-				          						<td> {{ tran.Total }}</td>
-				          					</tr>
-				          						{% endif %}
-				          					{% endfor %} 
-				          					<tr>
-				          						<td></td>
-				          						<td></td>
-				          						<td></td>
-				          						<td></td> 						
-				          						<td>Total: 
-				          							{{ total }}
-				          						</td>
-				          					</tr>
-				          				</tbody>
-				          			</table>
-				          		</div>
-				        	</div>
-				      	</div>
-				    </div>
-				</div>
-				<!-- accordion end -->
-			</div>
-			<div class = "span6">
-				<br />
-			</div>
-			<div class = "span1">
-				<br />
-			</div>
-		</div>
-		<div class = "container">
-			<div class = "span4_5">
-				<br />
-			</div>
-			<div class = "span6">
-				<p>Copyright (c) 2012 Braxton Lyddon</p>
-			</div>
-		</div>
+		<!-- end javascript -->
   	</body>
 </html>
