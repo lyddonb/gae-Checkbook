@@ -16,24 +16,19 @@
    -->
 <html>
 	<head>
-		<title>Checkbook</title>
+		<title>Checkbook|About</title>
+		<meta name = "author" content = "Braxton Lyddon">
 		<link href = "/stylesheets/bootstrap.css" rel = "stylesheet" type = "text/css"/>
-		<script src = "/stylesheets/jquery.js" type = "text/javascript"></script>
-		<style type = "text/css">
-			body {
-				padding-top: 60px;
-				padding-bottom: 40px;
-			}
-		</style>
 	</head>
 	<body>
+		<!-- Navbar -->
 	  	<div class = "navbar navbar-inverse navbar-fixed-top">
 	  		<div class = "navbar-inner">
-	  			<div class = "container-fluid">
-	  				<a class = "brand" href = "/"> Checkbook</a>
+	  			<div class = "container">
+	  				<p class = "brand" href = "/"><img src = "/Media/LogoMin.png"></p>
 	  				<ul class = "nav">
 	  					<li><a href = "/"> Home </a></li>
-	  					<li><a href = "/userpage" id = "mybook">My Book</a></li>
+	  					<li><a href = "/userpage" id = "mybook"> My Book </a></li>
 	  					<li class = "active"><a href = "/about"> About </a></li>
 	  				</ul>
 	  				<div class = "btn-group pull-right">
@@ -43,19 +38,30 @@
 				</div>
 			</div>
 		</div>
-		<div class = "container-fluid">
+		<!-- end navbar -->
+
+		<!-- Main -->
+		<div class = "container">
 			<div class = "span2">
 				<br />
 			</div>
 			<div class = "span8">
 				<div class = "hero-unit">
-					<h1>About Checkbook</h1>
+					<div class = "row">
+						<h1>About: </h1>
+					</div>
+					<div class = "row">
+						<div class = "span1">
+							<br />
+						</div>
+						<img src = "/Media/LogoMain.png">
+					</div>
 					<br />
 					<ol> 
 						<li>Easy way to keep track of your transactions.</li>
 						<li>Currently Only able to create one checkbook per user.</li>
-						<li>In the future there will be an iphone/andriod app for convinience.</li>
-						<li>Open Source code can be found on<a href = "https://github.com/blyddon22/gae-Checkbook"> Github</a></li>
+						<li>Open Source code can be found on <a href = "https://github.com/blyddon22/gae-Checkbook">Github</a></li>
+						<li>Having troubles? Email the developer! checkbook.webdev@gmail.com</li>
 					</ol>
 				</div>
 			</div>
@@ -63,6 +69,9 @@
 				<br />
 			</div>
 		</div>
+		<!-- end main -->
+
+		<!-- footer -->
 		<div class = "container">
 			<div class = "span4_5">
 				<br />
@@ -72,5 +81,16 @@
 			</div>
 
 		</div>
+		<!-- end footer -->
+		
+		<!-- javascript -->
+		<script src = "/stylesheets/jquery.js" type = "text/javascript"></script>
+		<style type = "text/css">
+			body {
+				padding-top: 60px;
+				padding-bottom: 40px;
+			}
+		</style>
+		<!-- end javascript -->
 	</body>
 </html>
