@@ -69,21 +69,21 @@ class BaseHandler(webapp2.RequestHandler):
                                                 ctx))
 
 
-class MainPage(webapp2.RequestHandler):
+class MainPage(BaseHandler):
 
     def get(self):
         ctx = self.set_user()
         self.render_template('checkbook_main.html', ctx)
 
 
-class About(webapp2.RequestHandler):
+class About(BaseHandler):
 
     def get(self):
         ctx = self.set_user()
         self.render_template('about.html', ctx)
 
 
-class UserHandler(webapp2.RequestHandler):
+class UserHandler(BaseHandler):
 
     def _get_checkbook(self):
         if not self.user:
